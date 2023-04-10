@@ -54,8 +54,7 @@ class quasi1DEuler:
                 self.W1[i, :] = self.W[i, :] - dt / V * Ri
 
             self.update_BC(mach_in)
-            iteration_residual = self.assemble_residual(timesteps)
-            error = np.linalg.norm(iteration_residual[:, 0], ord=np.inf)
+            error = np.linalg.norm(self.W1[:, 0] - self.W[:, 0], ord=np.inf)
             convergence.append(error)
             if not (itr % 1000):
                 print(f"Iteration: {itr} - Density residual: {convergence[-1]}")
@@ -63,15 +62,8 @@ class quasi1DEuler:
             itr += 1
         t2 = time.time()
 
-        print(f"Done solving:\n\tNumber of iterations: {itr}\n\tFinal density residual: {convergence[-1]}\n\tSolver CPU time: {t2-t1:.2f}s")
+        print(f"Done solving:\n\tNumber of iterations: {itr}\n\tFinal density residual: {convergence[-1]:.3e}\n\tSolver CPU time: {t2-t1:.2f}s")
         return np.array(convergence)
-
-    def assemble_residual(self, dt):
-        residual = []
-        for i in range(1, self.n-1):
-            Ri = (self.W1[i, :] - self.W[i, :]) / dt[i-1] + dt[i-1] / (self.S(self.x[i]) * self.dx) * self.R(i)
-            residual.append(Ri)
-        return np.array(residual)
 
     def R(self, i):
         # Compute numerical F_{i+0.5}
@@ -217,11 +209,6 @@ class quasi1DEuler:
 
     def S(self, xi):  # Computes area of the nozzle
         return 1 - self.h * (np.sin(np.pi * xi ** self.t1)) ** self.t2
-
-    # def S(self, xi):
-    #     return 0.2 * xi + 1
-
-
 
 
 if __name__ == '__main__':

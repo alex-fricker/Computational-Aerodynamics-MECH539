@@ -3,17 +3,15 @@ import matplotlib.pyplot as plt
 from quasi_1D_euler import quasi1DEuler
 
 n_grid = 50
-epsilon = 0.15
-CFL = 0.3
+epsilon = 0.08
+CFL = 0.15
 max_itr = 1e6
-tol = 1e-12
+tol = 1e-16
 
 fig1 = plt.figure()
 ax1 = fig1.add_subplot()
-
 fig2 = plt.figure()
 ax2 = fig2.add_subplot()
-
 fig3 = plt.figure()
 ax3 = fig3.add_subplot()
 
@@ -29,7 +27,6 @@ for pr in [0.76, 0.72, 0.68, 0.60]:
         pressure.append(p)
         mach.append(u / c)
     pressure = np.array([pressure]).reshape(-1) / euler_solver.Pt
-
     ax1.plot(np.linspace(euler_solver.x0, euler_solver.x1, euler_solver.n), pressure, label=f'{pr}')
     ax2.plot(np.linspace(euler_solver.x0, euler_solver.x1, euler_solver.n), mach, label=f'{pr}')
     ax3.plot(np.arange(1, len(residual) + 1), residual, label=f"{pr}")
