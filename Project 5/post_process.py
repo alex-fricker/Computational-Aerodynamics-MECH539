@@ -229,36 +229,6 @@ class postProcessFlow:
             print(f'Stagnation point id: {stag_id + self.TE_start}')
             print(f'\nStagnation point location: x={self.x[stag_id + self.TE_start, 0]}, y={self.y[stag_id + self.TE_start, 0]}')
 
-        #
-        #     x = np.zeros((3, np.zeros(self.TE_end - self.TE_start)))  # First row is laminar, 2nd is separated, 3rd turbulent
-        #     y = np.zeros((3, np.zeros(self.TE_end - self.TE_start)))
-        #     for i in range(self.TE_start, self.TE_end):
-        #         if tw > 0 and regime == 'laminar':
-        #             x[i, 0] = self.x[i, 0]
-        #             y[i, 0] = self.y[i, 0]
-        #         elif tw < 0 and regime == 'laminar':
-        #             x[i, 1] = self.x[i, 0]
-        #             y[i, 1] = self.y[i, 0]
-        #             regime = 'separated'
-        #         elif tw < 0 and regime == 'separated':
-        #             x[i, 1] = self.x[i, 0]
-        #             y[i, 1] = self.y[i, 0]
-        #         elif tw
-
-            # separation_id_lower = np.max(np.where(tw[:stag_id] < 0)) + self.TE_start
-            # reattach_id_lower = np.min(np.where(tw[:stag_id] < 0)) + self.TE_start
-            # separation_id_upper = np.min(np.where(tw[stag_id:] < 0)) + self.TE_start
-            # reattach_id_upper = np.max(np.where(tw[stag_id:] < 0)) + self.TE_start
-            #
-            # fig = plt.figure()
-            # ax = fig.add_subplot()
-            # ax.plot(self.x[self.TE_start:self.TE_end, 0], self.y[self.TE_start:self.TE_end, 0], 'k*-', linewidth=1.5, markersize=1.5)
-            # ax.axis('equal')
-            # ax.axvline(x=self.x[separation_id_upper, 0])
-            # ax.axvline(x=self.x[reattach_id_upper, 0])
-            # fig.savefig("airfoil_surf.png", dpi=300)
-            # fig.show()
-
         ### Wall shear stress distribution ###
         if cf_plot:
             tw = self.compute_wall_shear_stress()
